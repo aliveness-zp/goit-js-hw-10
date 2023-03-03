@@ -6,16 +6,23 @@ const alertPopUp = document.querySelector('.alert');
 let isAlertVisible = false;
 
 let page = 1;
-let limit = 1;
+let limit = 5;
 
 const totalPage = 100 / limit;
 
+const params = new URLSearchParams({
+  _limit: limit,
+  _page: page,
+});
+
+const URL = `https://jsonplaceholder.typicode.com/posts?${params}`;
+
 fetchPostsBtn.addEventListener('click', onCliskAddPosts);
 
-// 2. onClick function
+// 1. onClick function
 
 function onCliskAddPosts() {
-  if (page > totalPages) {
+  if (page > totalPage) {
     return toggleAlertPopup();
   }
 
@@ -33,22 +40,15 @@ function onCliskAddPosts() {
     .catch(error => console.log(error));
 }
 
-// 1. fetch function
+// 2. fetch function
 
 function fetchPosts() {
-  const params = new URLSearchParams({
-    _limit: limit,
-    _page: page,
-  });
-
-  return fetch(`https://jsonplaceholder.typicode.com/posts?${params}`).then(
-    response => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
+  return fetch(URL).then(response => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
-  );
+    return response.json();
+  });
 }
 
 // 3. render function
