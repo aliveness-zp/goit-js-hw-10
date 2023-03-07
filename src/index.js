@@ -29,8 +29,7 @@ function showCountries(countries) {
 function onInputGetCountry(e) {
   const searchTerm = e.target.value.trim();
   clearInfo();
-  if (searchTerm.length > 0) {
-  }
+  if (searchTerm === '') return;
   fetchCountries(searchTerm)
     .then(countries => processCountries(countries))
     .catch(error =>
@@ -45,7 +44,6 @@ function processCountries(countries) {
     Notiflix.Notify.info(
       'Too many matches found. Please enter a more specific name.'
     );
-  return;
 }
 
 // РАЗМЕТКА ОДНОЙ СТРАНЫ
